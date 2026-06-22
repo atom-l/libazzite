@@ -9,7 +9,7 @@ devmode:
         echo "Already in devmode."
         exit 0
     else
-        gum confirm "Would you like to disable development mode?" || exit 0
+        gum confirm "Would you like to enable development mode?" || exit 0
     fi
     proxy_args=()
     proxy_http="${HTTP_PROXY:-${http_proxy:-}}"
