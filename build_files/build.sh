@@ -14,6 +14,7 @@ cp -avf "/ctx/system_files"/. /
 
 # this installs a package from fedora repos
 dnf5 install -y tmux
+dnf5 install -y jq
 
 # Use a COPR Example:
 #
@@ -25,3 +26,20 @@ dnf5 install -y tmux
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+# 添加自定义的justfile
+cat  << EOF >> usr/share/ublue-os/justfile
+
+import "/usr/share/ublue-os/just/999-libazzite.just"
+EOF
+
+# 修改镜像信息
+IMAGE_INFO=$(cat /usr/share/ublue-os/image-info.json | jq '
+    ."image-name" = "libazzite"
+    | ."image-vendor" = "atom-l"
+    | ."image-ref" = "ostree-image-signed:docker://ghcr.io/atom-l/libazzite"
+    | ."image-tag" = "latest"
+    | ."image-branch" = "main"
+    | ."os-category" = "workspace"
+')
+echo "$IMAGE_INFO" > /usr/share/ublue-os/image-info.json
