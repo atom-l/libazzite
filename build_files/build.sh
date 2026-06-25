@@ -43,3 +43,15 @@ IMAGE_INFO=$(cat /usr/share/ublue-os/image-info.json | jq '
     | ."os-category" = "workspace"
 ')
 echo "$IMAGE_INFO" > /usr/share/ublue-os/image-info.json
+
+# 注入网络代理
+mkdir -p /usr/lib/systemd/system.conf.d/
+cat << 'EOF' > /usr/lib/systemd/system.conf.d/99-bazzite-proxy.conf
+[Manager]
+DefaultEnvironment="http_proxy=http://10.128.16.3:10809" "https_proxy=http://10.128.16.3:10809" "no_proxy=localhost,127.0.0.1"
+EOF
+mkdir -p /usr/lib/systemd/user.conf.d/
+cat << 'EOF' > /usr/lib/systemd/user.conf.d/99-bazzite-proxy.conf
+[Manager]
+DefaultEnvironment="http_proxy=http://10.128.16.3:10809" "https_proxy=http://10.128.16.3:10809" "no_proxy=localhost,127.0.0.1"
+EOF
