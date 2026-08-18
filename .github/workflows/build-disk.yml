@@ -75,7 +75,7 @@ jobs:
           remove-codeql: true
 
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Build disk images
         id: build
@@ -86,7 +86,6 @@ jobs:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: ${{ matrix.disk-type }}
-          rootfs: btrfs
           additional-args: --use-librepo=True
 
       - name: Upload disk images and Checksum to Job Artifacts
